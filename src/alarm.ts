@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
+import AxiosInstance from 'axios'
 const app_type = 'com.visonic.PowerMaxApp'
 
 interface getUserToken {
@@ -58,7 +59,8 @@ interface getStatusResponse {
   partitions: [
     {
       id: number
-      options: [any]
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      options: any[]
       ready: boolean
       state: string
       status: string
@@ -68,13 +70,16 @@ interface getStatusResponse {
 }
 
 export async function getStatus (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getStatusResponse> {
   return (await authenticatedAxios.get('status')).data
 }
 
 // TODO: define the output
-export async function getAlarms (authenticatedAxios) {
+export async function getAlarms (
+  authenticatedAxios: typeof AxiosInstance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
   return (await authenticatedAxios.get('alarms')).data
 }
 
@@ -90,16 +95,22 @@ interface getTroublesResponse {
   }
 }
 export async function getTroubles (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getTroublesResponse> {
   return (await authenticatedAxios.get('troubles')).data
 }
 
-export async function getAlerts (authenticatedAxios) {
+export async function getAlerts (
+  authenticatedAxios: typeof AxiosInstance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
   return (await authenticatedAxios.get('alerts')).data
 }
 
-export async function getPanelInfo (authenticatedAxios) {
+export async function getPanelInfo (
+  authenticatedAxios: typeof AxiosInstance
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
   return (await authenticatedAxios.get('panel_info')).data
 }
 
@@ -112,7 +123,8 @@ interface getEventsResponse {
     event: number
     label: string
     name: string
-    partitions: [any]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    partitions: any[]
     type_id: number
     video: boolean
     zone: number
@@ -120,7 +132,7 @@ interface getEventsResponse {
 }
 
 export async function getEvents (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getEventsResponse> {
   return (await authenticatedAxios.get('events')).data
 }
@@ -131,7 +143,7 @@ interface getWakeUpSMSResponse {
 }
 
 export async function getWakeUpSMS (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getWakeUpSMSResponse> {
   return (await authenticatedAxios.get('wakeup_sms')).data
 }
@@ -143,7 +155,8 @@ interface getAllDevicesResponse {
     enrollment_id: number | null
     id: number
     name: string
-    partition: [any]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    partition: any[]
     preenroll: boolean
     removable: boolean
     renamable: boolean
@@ -158,15 +171,17 @@ interface getAllDevicesResponse {
       bypass: { enabled: boolean }
       location: { name: string }
       rarely_used: { enabled: boolean }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       rssi: any
       soak: { enabled: boolean }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vod?: any
     }
   }
 }
 
 export async function getAllDevices (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getAllDevicesResponse> {
   return (await authenticatedAxios.get('devices')).data
 }
@@ -182,7 +197,7 @@ interface getProcessStatusResponse {
 
 export async function getProcessStatus (
   process_token: string,
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getProcessStatusResponse> {
   return (
     await authenticatedAxios.get('process_status', {
@@ -196,7 +211,7 @@ interface getLocationsResponse {
 }
 
 export async function getLocations (
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<getLocationsResponse> {
   return (await authenticatedAxios.get('locations')).data
 }
@@ -212,14 +227,15 @@ interface setStateResponse {
 
 export async function setState (
   state: setState,
-  authenticatedAxios
+  authenticatedAxios: typeof AxiosInstance
 ): Promise<setStateResponse> {
   return (await authenticatedAxios.post('set_state', state)).data
 }
 
 export async function getAuthenticatedAxios (
   params: getUserToken & getSessionToken
-): Promise<AxiosInstance> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): Promise<any> {
   const usertoken = await getUserToken({
     hostname: params.hostname,
     email: params.email,
