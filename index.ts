@@ -1,6 +1,5 @@
 import * as alarm from './src/alarm'
 const { hostname, app_id, user_code, panel_id, email, password } = process.env
-console.log(user_code)
 const run = async () => {
   const authenticatedAxios = await alarm.getAuthenticatedAxios({
     hostname,
