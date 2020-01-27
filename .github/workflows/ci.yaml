@@ -36,10 +36,7 @@ jobs:
         with:
           github-token: ${{ secrets.github_token }}
 
-      - uses: "phips28/gh-action-bump-version@v8.0.18"
-        if: github.ref == 'refs/heads/master'      
-        env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+      - run: npm --no-git-tag-version version 1.0.$GITHUB_RUN_NUMBER
 
       - run: npm publish
         if: github.ref == 'refs/heads/master'
