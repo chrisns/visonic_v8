@@ -41,4 +41,4 @@ jobs:
       - run: npm publish
         if: github.ref == 'refs/heads/master'
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
