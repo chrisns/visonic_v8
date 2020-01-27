@@ -2,8 +2,9 @@
   "name": "visonic_v8",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/alarm.js",
   "scripts": {
+    "compile": "tsc",
     "test": "jest",
     "lint": "eslint .",
     "lint-fix": "eslint --fix ."

@@ -1,3 +1,6 @@
 node_modules
 coverage
 .env
+index.js
+src/alarm.js
+**/*.d.ts
