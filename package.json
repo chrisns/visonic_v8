@@ -1,19 +1,16 @@
 {
-  "name": "visonic_v8",
+  "name": "@chrisns/visonic_v8",
   "version": "1.0.0",
   "description": "",
   "main": "src/alarm.js",
   "types": "src/alarm.d.ts",
   "scripts": {
-    "prepublish": "tsc",
+    "prepublishOnly": "tsc",
     "test": "jest",
     "lint": "eslint .",
     "lint-fix": "eslint --fix ."
   },
-  "files": [
-    "src/*.js",
-    "src/*.d.ts"
-  ],
+  "files": ["src/*.js", "src/*.d.ts"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chrisns/visonic_v8.git"
