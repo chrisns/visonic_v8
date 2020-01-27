@@ -4,13 +4,6 @@ module.exports = {
   },
   testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  setupFiles: ["dotenv/config"],
-  // setupFilesAfterEnv: [
-  //   "jest-dynalite/setupTables",
-  //   // Optional (but recommended)
-  //   "jest-dynalite/clearAfterEach"
-  // ],
-  // preset: "jest-dynalite",
   testEnvironment: "node",
   coverageReporters: ['lcovonly', 'text'],
   collectCoverage: true,
