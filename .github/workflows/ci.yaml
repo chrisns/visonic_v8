@@ -38,7 +38,9 @@ jobs:
 
       - run: npm --no-git-tag-version version 1.0.$GITHUB_RUN_NUMBER
 
-      - run: npm publish
+      - run: |
+          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+          npm publish
         if: github.ref == 'refs/heads/master'
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
