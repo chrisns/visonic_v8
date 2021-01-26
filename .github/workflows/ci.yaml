@@ -23,7 +23,9 @@ jobs:
           path: node_modules
           key: npm-${{ hashFiles('package-lock.json') }}
 
-      - if: steps.cache-node-modules.outputs.cache-hit != 'true'
+      - run: echo ${{steps.cache-node-modules.outputs.cache-hit}} ${{ steps.cache-node-modules.outputs.cache-hit == 'false'}}
+
+      - if: ${{ steps.cache-node-modules.outputs.cache-hit == 'false' }}
         run: npm install
 
       - run: npm run lint
