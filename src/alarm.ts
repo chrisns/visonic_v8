@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 const app_type = 'com.visonic.PowerMaxApp'
 
 interface getUserToken {
@@ -7,7 +7,7 @@ interface getUserToken {
   email: string
   password: string
 }
-export async function getUserToken (config: getUserToken) {
+export async function getUserToken (config: getUserToken): Promise<string> {
   const token = await axios.post(`${config.hostname}/rest_api/8.0/auth`, {
     email: config.email,
     password: config.password,
@@ -23,7 +23,9 @@ interface getSessionToken {
   user_code: string
   panel_id: string
 }
-export async function getSessionToken (config: getSessionToken) {
+export async function getSessionToken (
+  config: getSessionToken
+): Promise<string> {
   const sessionToken = await axios.post(
     `${config.hostname}/rest_api/8.0/panel/login`,
     {
@@ -41,8 +43,33 @@ export async function getSessionToken (config: getSessionToken) {
   return sessionToken.data.session_token
 }
 
-// TODO: define the output
-export async function getStatus (authenticatedAxios) {
+interface getStatusResponse {
+  connected: boolean
+  connected_status: {
+    bba: { is_connected: boolean; state: string }
+    gprs: { is_connected: boolean; state: string }
+  }
+  discovery: {
+    completed: boolean
+    in_queue: number
+    stages: number
+    triggered: null
+  }
+  partitions: [
+    {
+      id: number
+      options: [any]
+      ready: boolean
+      state: string
+      status: string
+    }
+  ]
+  rssi: { level: 'ok'; network: 'Unknown' }
+}
+
+export async function getStatus (
+  authenticatedAxios
+): Promise<getStatusResponse> {
   return (await authenticatedAxios.get('status')).data
 }
 
@@ -51,7 +78,20 @@ export async function getAlarms (authenticatedAxios) {
   return (await authenticatedAxios.get('alarms')).data
 }
 
-export async function getTroubles (authenticatedAxios) {
+interface getTroublesResponse {
+  [index: number]: {
+    device_type: string
+    location: string
+    partitions: [number]
+    trouble_type: string
+    zone: number
+    zone_name: string
+    zone_type: string
+  }
+}
+export async function getTroubles (
+  authenticatedAxios
+): Promise<getTroublesResponse> {
   return (await authenticatedAxios.get('troubles')).data
 }
 
@@ -63,22 +103,87 @@ export async function getPanelInfo (authenticatedAxios) {
   return (await authenticatedAxios.get('panel_info')).data
 }
 
-export async function getEvents (authenticatedAxios) {
+interface getEventsResponse {
+  [index: number]: {
+    appointment: string
+    datetime: string
+    description: string
+    device_type: string
+    event: number
+    label: string
+    name: string
+    partitions: [any]
+    type_id: number
+    video: boolean
+    zone: number
+  }
+}
+
+export async function getEvents (
+  authenticatedAxios
+): Promise<getEventsResponse> {
   return (await authenticatedAxios.get('events')).data
 }
 
-export async function getWakeUpSMS (authenticatedAxios) {
+interface getWakeUpSMSResponse {
+  phone: string
+  sms: string
+}
+
+export async function getWakeUpSMS (
+  authenticatedAxios
+): Promise<getWakeUpSMSResponse> {
   return (await authenticatedAxios.get('wakeup_sms')).data
 }
 
-export async function getAllDevices (authenticatedAxios) {
+interface getAllDevicesResponse {
+  [index: number]: {
+    device_number: number
+    device_type: string
+    enrollment_id: number | null
+    id: number
+    name: string
+    partition: [any]
+    preenroll: boolean
+    removable: boolean
+    renamable: boolean
+    subtype: string
+    warnings: null | Array<{
+      in_memory: boolean
+      severity: string
+      type: string
+    }>
+    zone_type: string | null
+    traits?: {
+      bypass: { enabled: boolean }
+      location: { name: string }
+      rarely_used: { enabled: boolean }
+      rssi: any
+      soak: { enabled: boolean }
+      vod?: any
+    }
+  }
+}
+
+export async function getAllDevices (
+  authenticatedAxios
+): Promise<getAllDevicesResponse> {
   return (await authenticatedAxios.get('devices')).data
+}
+
+interface getProcessStatusResponse {
+  [index: number]: {
+    error: string
+    message: string
+    status: string
+    token: string
+  }
 }
 
 export async function getProcessStatus (
   process_token: string,
   authenticatedAxios
-) {
+): Promise<getProcessStatusResponse> {
   return (
     await authenticatedAxios.get('process_status', {
       params: { process_tokens: process_token }
@@ -86,7 +191,13 @@ export async function getProcessStatus (
   ).data
 }
 
-export async function getLocations (authenticatedAxios) {
+interface getLocationsResponse {
+  [index: number]: { hel_id: number; is_editable: boolean; name: string }
+}
+
+export async function getLocations (
+  authenticatedAxios
+): Promise<getLocationsResponse> {
   return (await authenticatedAxios.get('locations')).data
 }
 
@@ -108,7 +219,7 @@ export async function setState (
 
 export async function getAuthenticatedAxios (
   params: getUserToken & getSessionToken
-) {
+): Promise<AxiosInstance> {
   const usertoken = await getUserToken({
     hostname: params.hostname,
     email: params.email,
