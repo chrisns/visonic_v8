@@ -11,6 +11,7 @@ module.exports = {
   //   "jest-dynalite/clearAfterEach"
   // ],
   // preset: "jest-dynalite",
+  testEnvironment: "node",
   coverageReporters: ['lcovonly', 'text'],
   collectCoverage: true,
   coverageDirectory: 'coverage',
