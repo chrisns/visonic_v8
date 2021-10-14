@@ -15,18 +15,10 @@ jobs:
 
       - uses: actions/setup-node@v2.4.1
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'npm'
 
-      - id: cache-node-modules
-        uses: actions/cache@v2.1.6
-        with:
-          path: node_modules
-          key: npm-${{ hashFiles('package-lock.json') }}
-
-      - run: echo ${{steps.cache-node-modules.outputs.cache-hit}} ${{ steps.cache-node-modules.outputs.cache-hit == 'false'}}
-
-      - if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
-        run: npm install
+      - run: npm install
 
       - run: npm run lint
 
